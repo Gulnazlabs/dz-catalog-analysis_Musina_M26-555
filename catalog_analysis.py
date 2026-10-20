@@ -222,6 +222,39 @@ def top_n_by_rating(movies, n=3):
     return top_movies
 
 
+def count_by_genre(movies):
+    genre_counts = {}
+
+    for movie in movies:
+        for genre in movie["genres"]:
+            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+
+    return genre_counts
+
+
+def actor_filmography(movies):
+    filmography = {}
+
+    for movie in movies:
+        for actor in movie["actors"]:
+            filmography.setdefault(actor, [])
+            filmography[actor].append(movie["title"])
+
+    return filmography
+
+
+def movies_above_average(movies):
+    avg_rating = average_rating(movies)
+
+    high_rated = {
+        movie["title"]: movie["rating"]
+        for movie in movies
+        if movie["rating"] > avg_rating
+    }
+
+    return high_rated
+
+
 print("Средний рейтинг:", average_rating(movies))
 print("Возраст фильмов:", catalog_age_stats(movies))
 print("Продолжительность фильма:", duration_in_hours(155))
@@ -284,3 +317,20 @@ original_movies = movies.copy()
 titles_sorted_by_rating(movies)
 
 print("Исходный список не изменился:", movies == original_movies)
+
+print("Количество фильмов по жанрам:")
+print(count_by_genre(movies))
+
+print("Фильмография актёров:")
+
+result = actor_filmography(movies)
+
+for actor, titles in result.items():
+    print(actor, ":", titles)
+
+print("Фильмы с рейтингом выше среднего:")
+
+result = movies_above_average(movies)
+
+for title, rating in result.items():
+    print(f"{title}: {rating}")
