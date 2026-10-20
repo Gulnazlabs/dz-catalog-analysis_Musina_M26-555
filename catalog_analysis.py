@@ -1,28 +1,88 @@
 import math
 
 movies = [
-    {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
-    "rating": 8.6, "duration_min": 155,
-    "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
-    {"title": "Kitchen Stories", "year": 2019, "genres": {"comedy", "drama"},
-     "rating": 7.1, "duration_min": 98, "actors": ["A. Novak", "M. Ferguson"]},
-    {"title": "silent hours", "year": 2016, "genres": {"thriller", "drama"},
-     "rating": 6.4, "duration_min": 112, "actors": ["J. Bloom", "K. Lee"]},
-    {"title": "Comet Racers", "year": 2023, "genres": {"sci-fi", "action"},
-     "rating": 5.9, "duration_min": 101, "actors": ["O. Isaac", "P. Diaz"]},
-    {"title": "The Last Bakery", "year": 2014, "genres": {"comedy"},
-     "rating": 7.8, "duration_min": 89, "actors": ["A. Novak", "T. Chalamet"]},
-    {"title": "midnight in oslo", "year": 2020, "genres": {"thriller", "mystery"},
-     "rating": 8.9, "duration_min": 124, "actors": ["K. Lee", "R. Ferguson"]},
-    {"title": "Garden of Static", "year": 2022, "genres": {"drama"},
-     "rating": 4.8, "duration_min": 137, "actors": ["P. Diaz", "J. Bloom"]},
-    {"title": "The Quiet Algorithm", "year": 2024, "genres": {"sci-fi", "drama"},
-     "rating": 9.2, "duration_min": 118, "actors": ["M. Ferguson", "O. Isaac"]},
-    {"title": "Two Left Shoes", "year": 2011, "genres": {"comedy"},
-     "rating": 6.0, "duration_min": 95, "actors": ["A. Novak", "K. Lee"]},
-    {"title": "Red Harbor", "year": 2018, "genres": {"action", "thriller"},
-     "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
+    {
+        "title": "The Dune Chronicles",
+        "year": 2021,
+        "genres": {"sci-fi", "drama"},
+        "rating": 8.6,
+        "duration_min": 155,
+        "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"],
+    },
+    {
+        "title": "Kitchen Stories",
+        "year": 2019,
+        "genres": {"comedy", "drama"},
+        "rating": 7.1,
+        "duration_min": 98,
+        "actors": ["A. Novak", "M. Ferguson"],
+    },
+    {
+        "title": "silent hours",
+        "year": 2016,
+        "genres": {"thriller", "drama"},
+        "rating": 6.4,
+        "duration_min": 112,
+        "actors": ["J. Bloom", "K. Lee"],
+    },
+    {
+        "title": "Comet Racers",
+        "year": 2023,
+        "genres": {"sci-fi", "action"},
+        "rating": 5.9,
+        "duration_min": 101,
+        "actors": ["O. Isaac", "P. Diaz"],
+    },
+    {
+        "title": "The Last Bakery",
+        "year": 2014,
+        "genres": {"comedy"},
+        "rating": 7.8,
+        "duration_min": 89,
+        "actors": ["A. Novak", "T. Chalamet"],
+    },
+    {
+        "title": "midnight in oslo",
+        "year": 2020,
+        "genres": {"thriller", "mystery"},
+        "rating": 8.9,
+        "duration_min": 124,
+        "actors": ["K. Lee", "R. Ferguson"],
+    },
+    {
+        "title": "Garden of Static",
+        "year": 2022,
+        "genres": {"drama"},
+        "rating": 4.8,
+        "duration_min": 137,
+        "actors": ["P. Diaz", "J. Bloom"],
+    },
+    {
+        "title": "The Quiet Algorithm",
+        "year": 2024,
+        "genres": {"sci-fi", "drama"},
+        "rating": 9.2,
+        "duration_min": 118,
+        "actors": ["M. Ferguson", "O. Isaac"],
+    },
+    {
+        "title": "Two Left Shoes",
+        "year": 2011,
+        "genres": {"comedy"},
+        "rating": 6.0,
+        "duration_min": 95,
+        "actors": ["A. Novak", "K. Lee"],
+    },
+    {
+        "title": "Red Harbor",
+        "year": 2018,
+        "genres": {"action", "thriller"},
+        "rating": 7.3,
+        "duration_min": 129,
+        "actors": ["P. Diaz", "T. Chalamet"],
+    },
 ]
+
 
 def average_rating(movies):
     total_rating = 0
@@ -47,6 +107,7 @@ def catalog_age_stats(movies, current_year=2026):
 
     return (oldest, newest, average_age)
 
+
 def duration_in_hours(minutes):
     hours = minutes // 60
     remaining_minutes = minutes % 60
@@ -59,7 +120,8 @@ def rating_tier(rating):
         return "шедевр"
     elif rating >= 7:
         return "хорошо"
-    return "средне" if rating >= 5 else "слабо"        
+    return "средне" if rating >= 5 else "слабо"
+
 
 def decade_label(year):
     match year:
@@ -70,12 +132,14 @@ def decade_label(year):
         case _:
             return "старые"
 
+
 def print_non_comedy_movies(movies):
     for movie in movies:
         if "comedy" in movie["genres"]:
             continue
 
         print(movie["title"])
+
 
 def find_masterpiece(movies):
     index = 0
@@ -92,6 +156,7 @@ def find_masterpiece(movies):
     else:
         print("Шедевров не найдено")
 
+
 def count_long_movies(movies, threshold=120):
     count = 0
 
@@ -100,6 +165,35 @@ def count_long_movies(movies, threshold=120):
             count += 1
 
     return count
+
+
+def normalize_title(title):
+    words = title.split()
+    normalized_words = []
+
+    for word in words:
+        normalized_word = word[0].upper() + word[1:].lower()
+        normalized_words.append(normalized_word)
+
+    return " ".join(normalized_words)
+
+
+def make_slug(title):
+    normalized = normalize_title(title)
+    slug = normalized.lower().replace(" ", "-")
+    return slug
+
+
+def format_report_line(movie):
+    title = normalize_title(movie["title"])
+    year = movie["year"]
+    rating = movie["rating"]
+    duration = duration_in_hours(movie["duration_min"])
+
+    genres = sorted(movie["genres"])
+    genres_text = ", ".join(genres)
+
+    return f'"{title}" ({year}) — {rating}/10, {duration}, жанры: {genres_text}'
 
 
 print("Средний рейтинг:", average_rating(movies))
@@ -124,9 +218,7 @@ find_masterpiece(movies)
 
 
 # Проверяем случай, когда шедевров нет
-movies_without_masterpieces = [
-    movie for movie in movies if movie["rating"] <= 9.0
-]
+movies_without_masterpieces = [movie for movie in movies if movie["rating"] <= 9.0]
 
 print("Поиск в каталоге без шедевров:")
 find_masterpiece(movies_without_masterpieces)
@@ -134,3 +226,16 @@ find_masterpiece(movies_without_masterpieces)
 print("Фильмов длиннее 120 минут:", count_long_movies(movies))
 print("Фильмов длиннее 150 минут:", count_long_movies(movies, 150))
 print("Фильмов длиннее 200 минут:", count_long_movies(movies, 200))
+
+print("Нормализация названий:")
+print(normalize_title("silent hours"))
+print(normalize_title("midnight in oslo"))
+print(normalize_title("THE QUIET ALGORITHM"))
+
+print("Проверка slug:")
+print(make_slug("The Quiet Algorithm"))
+print(make_slug("silent hours"))
+print(make_slug("midnight in oslo"))
+
+print("Отчёт по фильму:")
+print(format_report_line(movies[7]))
