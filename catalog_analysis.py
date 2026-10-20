@@ -196,6 +196,32 @@ def format_report_line(movie):
     return f'"{title}" ({year}) — {rating}/10, {duration}, жанры: {genres_text}'
 
 
+def titles_sorted_by_rating(movies):
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+
+    titles = []
+
+    for movie in sorted_movies:
+        titles.append(movie["title"])
+
+    return titles
+
+
+def top_n_by_rating(movies, n=3):
+    sorted_movies = sorted(
+        movies,
+        key=lambda movie: movie["rating"],
+        reverse=True,
+    )
+
+    top_movies = []
+
+    for movie in sorted_movies[:n]:
+        top_movies.append((movie["title"], movie["rating"]))
+
+    return top_movies
+
+
 print("Средний рейтинг:", average_rating(movies))
 print("Возраст фильмов:", catalog_age_stats(movies))
 print("Продолжительность фильма:", duration_in_hours(155))
@@ -239,3 +265,22 @@ print(make_slug("midnight in oslo"))
 
 print("Отчёт по фильму:")
 print(format_report_line(movies[7]))
+
+print("Фильмы по убыванию рейтинга:")
+
+result = titles_sorted_by_rating(movies)
+
+for title in result:
+    print(title)
+
+print("Топ-3 фильмов:")
+print(top_n_by_rating(movies))
+
+print("Топ-5 фильмов:")
+print(top_n_by_rating(movies, 5))
+
+original_movies = movies.copy()
+
+titles_sorted_by_rating(movies)
+
+print("Исходный список не изменился:", movies == original_movies)
