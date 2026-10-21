@@ -1,0 +1,12 @@
+# Виртуальное окружение
+.venv/
+
+# Кеш Python
+__pycache__/
+*.pyc
+
+# Кеш Ruff
+.ruff_cache/
+
+# Временные резервные копии
+*_backup.py

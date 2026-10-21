@@ -167,6 +167,21 @@ def count_long_movies(movies, threshold=120):
     return count
 
 
+def demonstrate_stage_3(movies):
+    print("Фильмы без жанра comedy:")
+    print_non_comedy_movies(movies)
+
+    print("\nПоиск шедевра:")
+    find_masterpiece(movies)
+
+    movies_without_masterpieces = [movie for movie in movies if movie["rating"] <= 9.0]
+
+    print("\nПоиск в каталоге без шедевров:")
+    find_masterpiece(movies_without_masterpieces)
+
+    print("\nФильмов длиннее 120 минут:", count_long_movies(movies))
+
+
 def normalize_title(title):
     words = title.split()
     normalized_words = []
@@ -284,6 +299,20 @@ def iter_high_rated(movies, min_rating=8.0):
             yield movie
 
 
+def demonstrate_stage_8(movies):
+    print("Фильмы с рейтингом не ниже 8.0:")
+
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+    total_duration = sum(
+        movie["duration_min"] for movie in movies if movie["rating"] > 7
+    )
+
+    print("\nСуммарная длительность фильмов с рейтингом выше 7:")
+    print(total_duration, "минут")
+
+
 def build_report(movies):
     print("ОТЧЁТ ПО КАТАЛОГУ")
 
@@ -323,112 +352,5 @@ def build_report(movies):
     print(f"\nВсе жанры каталога: {genres_text}")
 
 
-print("Средний рейтинг:", average_rating(movies))
-print("Возраст фильмов:", catalog_age_stats(movies))
-print("Продолжительность фильма:", duration_in_hours(155))
-
-print("Рейтинг 9.0:", rating_tier(9.0))
-print("Рейтинг 7.0:", rating_tier(7.0))
-print("Рейтинг 5.0:", rating_tier(5.0))
-print("Рейтинг 4.9:", rating_tier(4.9))
-
-print("Фильм 2021 года:", decade_label(2021))
-print("Фильм 2020 года:", decade_label(2020))
-print("Фильм 2015 года:", decade_label(2015))
-print("Фильм 2014 года:", decade_label(2014))
-
-print("Фильмы без жанра comedy:")
-print_non_comedy_movies(movies)
-
-print("Поиск шедевра:")
-find_masterpiece(movies)
-
-
-# Проверяем случай, когда шедевров нет
-movies_without_masterpieces = [movie for movie in movies if movie["rating"] <= 9.0]
-
-print("Поиск в каталоге без шедевров:")
-find_masterpiece(movies_without_masterpieces)
-
-print("Фильмов длиннее 120 минут:", count_long_movies(movies))
-print("Фильмов длиннее 150 минут:", count_long_movies(movies, 150))
-print("Фильмов длиннее 200 минут:", count_long_movies(movies, 200))
-
-print("Нормализация названий:")
-print(normalize_title("silent hours"))
-print(normalize_title("midnight in oslo"))
-print(normalize_title("THE QUIET ALGORITHM"))
-
-print("Проверка slug:")
-print(make_slug("The Quiet Algorithm"))
-print(make_slug("silent hours"))
-print(make_slug("midnight in oslo"))
-
-print("Отчёт по фильму:")
-print(format_report_line(movies[7]))
-
-print("Фильмы по убыванию рейтинга:")
-
-result = titles_sorted_by_rating(movies)
-
-for title in result:
-    print(title)
-
-print("Топ-3 фильмов:")
-print(top_n_by_rating(movies))
-
-print("Топ-5 фильмов:")
-print(top_n_by_rating(movies, 5))
-
-original_movies = movies.copy()
-
-titles_sorted_by_rating(movies)
-
-print("Исходный список не изменился:", movies == original_movies)
-
-print("Количество фильмов по жанрам:")
-print(count_by_genre(movies))
-
-print("Фильмография актёров:")
-
-result = actor_filmography(movies)
-
-for actor, titles in result.items():
-    print(actor, ":", titles)
-
-print("Фильмы с рейтингом выше среднего:")
-
-result = movies_above_average(movies)
-
-for title, rating in result.items():
-    print(f"{title}: {rating}")
-
-print("Все уникальные жанры:")
-print(all_genres(movies))
-
-print("Общие актёры двух фильмов:")
-print(common_actors(movies[0], movies[3]))
-
-print("Общие актёры других фильмов:")
-print(common_actors(movies[0], movies[1]))
-
-print("Жанры только из первой группы:")
-print(genres_only_in_one(movies[5:6], movies[:5]))
-
-print("Фильмы с рейтингом не ниже 8.0:")
-
-for movie in iter_high_rated(movies):
-    print(format_report_line(movie))
-
-print("Фильмы с рейтингом не ниже 9.0:")
-
-for movie in iter_high_rated(movies, 9.0):
-    print(movie["title"])
-
-print("Суммарная длительность фильмов с рейтингом выше 7:")
-
-total_duration = sum(movie["duration_min"] for movie in movies if movie["rating"] > 7)
-
-print(total_duration, "минут")
-
-build_report(movies)
+if __name__ == "__main__":
+    build_report(movies)
